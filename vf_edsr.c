@@ -29,14 +29,11 @@ typedef struct EDSRContext {
     uint8_t* data;
     int frame_width;
     int frame_height;
-    // int batch_size;
     int patch_width;
     int patch_height;
     int scale;
-    // char* patch_idx;
     char* file_path;
     char* model_path;
-    // char** patch_info;
     struct CPytorchModel* model;
 } EDSRContext;
 
@@ -123,8 +120,6 @@ static int filter_frame(AVFilterLink* inlink, AVFrame* in) {
 
     struct timeval stv, etv;
     gettimeofday(&stv, NULL);
-    // av_log(NULL, AV_LOG_INFO, "------start: %ld-----------",stv.tv_sec
-    //     *1000+stv.tv_usec/1000);
 
     AVFilterContext* context = inlink->dst; // Local context from input link
     EDSRContext* s = context->priv;
@@ -133,12 +128,9 @@ static int filter_frame(AVFilterLink* inlink, AVFrame* in) {
     // load_file(s->file_path);
     char* current_patch = malloc(64*sizeof(char));
     current_patch = patch_info[in->coded_picture_number];
-    //av_log(NULL, AV_LOG_INFO, "------current_path: %s-----------",current_patch);
     char c_num_batches = current_patch[0];
-    //av_log(NULL, AV_LOG_INFO, "------batch_size: %c-----------",c_num_batches);
     int num_batches = c_num_batches;
     num_batches = num_batches - 65;
-    //av_log(NULL, AV_LOG_INFO, "------batch_size: %d-----------",num_batches);
 
     // upscale y u v 
     struct SwsContext *scale;
@@ -155,7 +147,6 @@ static int filter_frame(AVFilterLink* inlink, AVFrame* in) {
     }
 
 
-
     AVFrame* out = ff_get_video_buffer(outlink, outlink->w, outlink->h);
     // Throw an error if we're out of memory
     if (!out) {
@@ -169,12 +160,9 @@ static int filter_frame(AVFilterLink* inlink, AVFrame* in) {
     out->data[0] = (uint8_t*) malloc(out_y_pixels);
 
     int srcStride[1] = {in->width};
-    // int srcStride[3] = {16, uv_width, uv_width};
     int start = 0;
     int end = in->height;
-    // int out_uv_width = uv_width * s->scale;
     int dstStride[1] = {outlink->w};
-    //int dstStride[3] = {32, out_uv_width, out_uv_width};
 
     int out_height = sws_scale(scale, &input, srcStride, start, end, &out->data[0], dstStride);
     
@@ -211,7 +199,6 @@ static int filter_frame(AVFilterLink* inlink, AVFrame* in) {
         char c = current_patch[z+2];    
         int i = c;
         i = i-65;
-        // av_log(NULL, AV_LOG_INFO, "------out patch_height: %d-----------",out_patch_h);
         int h_idx = i / 6;
         int w_idx = i % 6;
 
@@ -230,9 +217,6 @@ static int filter_frame(AVFilterLink* inlink, AVFrame* in) {
     free(hr_image);
     gettimeofday(&etv, NULL);
     
-    // av_log(NULL, AV_LOG_INFO, "------duration: %ld-----------",etv.tv_sec
-    //     *1000+etv.tv_usec/1000-stv.tv_sec
-    //     *1000-stv.tv_usec/1000);
     
     per_frame_time = per_frame_time * i;
     per_frame_time += etv.tv_sec
@@ -240,8 +224,7 @@ static int filter_frame(AVFilterLink* inlink, AVFrame* in) {
         *1000-stv.tv_usec/1000;
     per_frame_time = per_frame_time/(i+1);
     i += 1;
-    // if (i==300)
-    //     av_log(NULL, AV_LOG_PANIC, "------avg duration:%ld-----------\n",per_frame_time);
+
     return 0;
 }
 
