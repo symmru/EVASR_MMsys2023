@@ -8,6 +8,8 @@
 
 Pytorch
 
+Data can be download here: https://drive.google.com/drive/folders/1dLeoTRousJ6fYE2VpUDdIsZcrzDM8Sf4?usp=share_link
+
 ### Saliency Detection
 
 1. The repo for saliency detection https://github.com/guotaowang/STVS
