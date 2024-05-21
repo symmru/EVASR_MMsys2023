@@ -4,7 +4,7 @@
 
 ### Overview
 
-### prerequist
+### prerequisite
 
 Pytorch   
 Data can be download here: https://drive.google.com/drive/folders/1dLeoTRousJ6fYE2VpUDdIsZcrzDM8Sf4?usp=share_link
