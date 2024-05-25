@@ -1,13 +1,15 @@
-# EVASR: Edge-Based Video Delivery with Salience-Aware Super-Resolution
+# [EVASR: Edge-Based Video Delivery with Salience-Aware Super-Resolution](https://dl.acm.org/doi/abs/10.1145/3587819.3590967)
 
 
 
 ### Overview
 
+With the rapid growth of video content consumption, it is important to deliver high-quality streaming videos to users even under limited available network bandwidth. In this paper, we propose EVASR, a system that performs edge-based video delivery to clients with salience-aware super-resolution. We select patches with higher saliency score to perform super-resolution while applying the simple yet efficient bicubic interpolation for the remaining patches in the same video frame. To efficiently use the computation resources available at the edge server, we introduce a new metric called "saliency visual quality" and formulate patch selection as an optimization problem to achieve the best performance when an edge server is serving multiple users. We implement EVASR based on the FFmpeg framework and conduct extensive experiments for evaluation. Results show that EVASR outperforms baseline approaches in both resource efficiency and visual quality metrics including PSNR, saliency visual quality (SVQ), and VMAF.
+
 ### prerequisite
 
 Pytorch   
-Data can be download here: https://drive.google.com/drive/folders/1dLeoTRousJ6fYE2VpUDdIsZcrzDM8Sf4?usp=share_link
+Data can be downloaded here: https://drive.google.com/drive/folders/1dLeoTRousJ6fYE2VpUDdIsZcrzDM8Sf4?usp=share_link
 
 ### Saliency Detection
 
@@ -35,8 +37,17 @@ Naive weight would be m1
 ### Installation
 Refer to https://github.com/symmru/FFmpegSR-ISM2022
 
-## License
+## Citations
 
-MIT
+If you find our code or paper helps, please consider citing:
+```sh
+@inproceedings{li2023evasr,
+  title={EVASR: Edge-Based Video Delivery with Salience-Aware Super-Resolution},
+  author={Li, Na and Liu, Yao},
+  booktitle={Proceedings of the 14th Conference on ACM Multimedia Systems},
+  pages={142--152},
+  year={2023}
+}
+```
 
 
